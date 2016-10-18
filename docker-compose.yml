@@ -1,0 +1,16 @@
+version: "2"
+services:
+  smtp:
+    restart: always
+    build: .
+    ports:
+      - "25:25"
+    volumes:
+      - ./dkim:/srv
+    hostname: mail.example.com
+    environment:
+      - RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16
+      - DKIM_KEY_SIZE=1024
+      - DKIM_SELECTOR=dkim
+      - DKIM_SIGN_HEADERS=Date:From:To:Subject:Message-ID
+      - DKIM_DOMAINS=example.com
