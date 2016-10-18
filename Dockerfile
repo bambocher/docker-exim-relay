@@ -10,8 +10,8 @@ ENV REPOSITORY http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 RUN apk --no-cache --repository $REPOSITORY add exim && mkdir /usr/lib/exim
 
-COPY exim.conf /etc/exim
-COPY entrypoint.sh /
+COPY exim.conf /etc/exim/exim.conf
+COPY entrypoint.sh /entrypoint.sh
 
 VOLUME ["/srv"]
 EXPOSE 25
