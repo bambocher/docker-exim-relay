@@ -1,6 +1,6 @@
 # Exim Relay Docker Image
 
-[![GitHub Release](https://img.shields.io/github/release/bambocher/docker-exim-relay.svg?style=plastic)]() [![Layers](https://images.microbadger.com/badges/image/bambucha/exim-relay.svg)](https://microbadger.com/images/bambucha/exim-relay/) [![license](https://img.shields.io/github/bambocher/docker-exim-relay/apistatus.svg)]() [![Automated Build](https://img.shields.io/docker/automated/bambucha/exim-relay.svg)](https://registry.hub.docker.com/u/bambucha/exim-relay/) [![Docker Pulls](https://img.shields.io/docker/pulls/bambucha/exim-relay.svg)](https://registry.hub.docker.com/u/bambucha/exim-relay/)
+[![GitHub Tag](https://img.shields.io/github/tag/bambocher/docker-exim-relay.svg)](https://registry.hub.docker.com/u/bambucha/exim-relay/) [![Layers](https://images.microbadger.com/badges/image/bambucha/exim-relay.svg)](https://microbadger.com/images/bambucha/exim-relay/) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://registry.hub.docker.com/u/bambucha/exim-relay/) [![Automated Build](https://img.shields.io/docker/automated/bambucha/exim-relay.svg)](https://registry.hub.docker.com/u/bambucha/exim-relay/) [![Docker Pulls](https://img.shields.io/docker/pulls/bambucha/exim-relay.svg)](https://registry.hub.docker.com/u/bambucha/exim-relay/)
 
 [Exim](http://exim.org/) relay [Docker](https://docker.com/) image based on [Alpine](https://alpinelinux.org/) Linux and support DKIM.
 
