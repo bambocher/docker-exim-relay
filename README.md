@@ -160,6 +160,12 @@ Remove a message from the queue:
 docker exec -it smtp exim -Mrm <message-id> [ <message-id> ... ]
 ```
 
+Send a message:
+
+```shell
+echo "Test message" | mailx -v -r "sender@example.com" -s "Test subject" -S smtp="localhost:25" recipient@example.com
+```
+
 ## License
 
 [The MIT License](LICENSE)
