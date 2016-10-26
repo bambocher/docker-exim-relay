@@ -4,7 +4,7 @@ EXIM=/usr/sbin/exim
 OPENSSL=/usr/bin/openssl
 
 for domain in $DKIM_DOMAINS; do
-    DKIM=/srv/$domain
+    DKIM=/dkim/$domain
     if [ ! -f $DKIM ]; then
         $OPENSSL genrsa $DKIM_KEY_SIZE > $DKIM
     fi
