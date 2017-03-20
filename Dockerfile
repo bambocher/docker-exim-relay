@@ -8,7 +8,7 @@ ENV RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16 \
     DKIM_DOMAINS=example.com \
     REPOSITORY=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
-RUN apk --no-cache --repository $REPOSITORY add exim libcap \
+RUN apk --no-cache --repository $REPOSITORY add exim libcap openssl \
     && mkdir /dkim /var/log/exim /usr/lib/exim /var/spool/exim \
     && ln -s /dev/stdout /var/log/exim/main \
     && ln -s /dev/stderr /var/log/exim/panic \
