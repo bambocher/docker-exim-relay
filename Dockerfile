@@ -4,7 +4,7 @@ MAINTAINER Dmitry Prazdnichnov <dp@bambucha.org>
 ARG VERSION=4.89-r5
 
 LABEL org.label-schema.version=$VERSION \
-      org.label-schema.vcs-url=https://github.com/bambocher/exim-relay \
+      org.label-schema.vcs-url=https://github.com/bambocher/docker-exim-relay \
       org.label-schema.license=MIT \
       org.label-schema.schema-version=1.0
 
