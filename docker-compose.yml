@@ -1,0 +1,26 @@
+version: "2.1"
+
+services:
+  smtp:
+    restart: always
+    build:
+      context: ${EXIM_IMAGE_BUILD_CONTEXT:-.}
+      args:
+        ALPINE_VERSION: ${ALPINE_VERSION:-3.7}
+        EXIM_VERSION: ${EXIM_VERSION:-4.90}
+    image: ${EXIM_IMAGE:-bambucha/exim-relay}:${EXIM_VERSION:-4.90}
+    ports:
+      - ${EXIM_PORT_MAP:-25:25}
+    volumes:
+      - ${DKIM_VOLUME:-smtp-dkim}:/dkim
+    hostname: ${HOSTNAME:-mail.domain.tld}
+    environment:
+      DKIM_DOMAINS: ${DKIM_DOMAINS:-domain.tld}
+      RELAY_FROM_HOSTS: ${RELAY_FROM_HOSTS:-10.0.0.0/8:172.16.0.0/12:192.168.0.0/16}
+      DKIM_KEY_SIZE: ${DKIM_KEY_SIZE:-1024}
+      DKIM_SELECTOR: ${DKIM_SELECTOR:-dkim}
+      DKIM_SIGN_HEADERS: ${DKIM_SIGN_HEADERS:-Date:From:To:Subject:Message-ID}
+
+volumes:
+  smtp-dkim:
+    driver: local

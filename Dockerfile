@@ -1,20 +1,29 @@
-FROM alpine:3.6
+ARG ALPINE_VERSION=3.7
+
+FROM alpine:$ALPINE_VERSION
 MAINTAINER Dmitry Prazdnichnov <dp@bambucha.org>
 
-ARG VERSION=4.89-r5
+ARG EXIM_VERSION=4.89.1-r0
 
-LABEL org.label-schema.version=$VERSION \
+ARG DKIM_DOMAINS=domain.tld
+ARG RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16
+ARG DKIM_KEY_SIZE=1024
+ARG DKIM_SELECTOR=dkim
+ARG DKIM_SIGN_HEADERS=Date:From:To:Subject:Message-ID
+
+LABEL org.label-schema.version=${EXIM_VERSION} \
       org.label-schema.vcs-url=https://github.com/bambocher/docker-exim-relay \
       org.label-schema.license=MIT \
       org.label-schema.schema-version=1.0
 
-ENV RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16 \
-    DKIM_KEY_SIZE=1024 \
-    DKIM_SELECTOR=dkim \
-    DKIM_SIGN_HEADERS=Date:From:To:Subject:Message-ID
+ENV RELAY_FROM_HOSTS=${RELAY_FROM_HOSTS} \
+    DKIM_DOMAINS=${DKIM_DOMAINS} \
+    DKIM_KEY_SIZE=${DKIM_KEY_SIZE} \
+    DKIM_SELECTOR=${DKIM_SELECTOR} \
+    DKIM_SIGN_HEADERS=${DKIM_SIGN_HEADERS}
 
-RUN apk --no-cache add exim=$VERSION libcap openssl \
-    && mkdir /dkim /var/log/exim /usr/lib/exim /var/spool/exim \
+RUN apk --no-cache add exim=${EXIM_VERSION} libcap openssl \
+    && mkdir -p /dkim /var/log/exim /usr/lib/exim /var/spool/exim \
     && ln -s /dev/stdout /var/log/exim/main \
     && ln -s /dev/stderr /var/log/exim/panic \
     && ln -s /dev/stderr /var/log/exim/reject \

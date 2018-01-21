@@ -9,13 +9,13 @@
 Create docker volume for dkim keys:
 
 ```shell
-docker volume create --name=smtp-dkim
+sudo docker volume create --name=smtp-dkim
 ```
 
 Create docker container:
 
 ```shell
-docker run \
+sudo docker run \
     -d \
     --name smtp \
     --restart=always \
@@ -29,27 +29,41 @@ docker run \
 
 ## [Docker Compose](https://docs.docker.com/compose/compose-file)
 
-```yml
-version: "2"
-services:
-  smtp:
-    restart: always
-    image: bambucha/exim-relay
-    user: exim
-    ports:
-      - "25:25"
-    volumes:
-      - smtp-dkim:/dkim
-    hostname: mail.example.com
-    environment:
-      - RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16
-      - DKIM_KEY_SIZE=1024
-      - DKIM_SELECTOR=dkim
-      - DKIM_SIGN_HEADERS=Date:From:To:Subject:Message-ID
-      - DKIM_DOMAINS=example.com
-volumes:
-  smtp-dkim:
-    driver: local
+Please rename `.env-example` to `.env` in order to customize how to build the
+ image and containers to run Exim from Docker.
+
+The `.env` file contains comments explaining how each parameter in the
+ `docker-compose.yml` can be overridden.
+
+
+#### Run Exim on the background
+
+```shell
+sudo docker-compose up -d smtp
+```
+
+#### Run Exim attached to the Shell
+
+```shell
+sudo docker-compose up smtp
+```
+
+#### Destroy the running Exim container
+
+```
+sudo docker-compose down
+```
+
+#### Access the Shell of the running container
+
+```shell
+sudo docker-compose exec smtp /bin/sh
+```
+
+#### Access the Shell without having a container running
+
+```shell
+sudo docker-compose run -u root --entrypoint=/bin/sh --rm smtp
 ```
 
 ## Reverse PTR
@@ -73,13 +87,13 @@ example.com. 300 IN TXT "v=spf1 a mx -all"
 Get dkim public key with docker exec:
 
 ```shell
-docker exec -it smtp cat /dkim/example.com.pub
+sudo docker exec -it smtp cat /dkim/example.com.pub
 ```
 
 or get dkim public key with docker-compose exec:
 
 ```shell
-docker-compose exec smtp cat /dkim/example.com.pub
+sudo docker-compose exec smtp cat /dkim/example.com.pub
 ```
 
 or get dkim public key from docker volume:
@@ -99,25 +113,25 @@ dkim._domainkey.example.com. 300 IN TXT "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN
 Print a count of the messages in the queue:
 
 ```shell
-docker exec -it smtp exim -bpc
+sudo docker exec -it smtp exim -bpc
 ```
 
 Print a listing of the messages in the queue (time queued, size, message-id, sender, recipient):
 
 ```shell
-docker exec -it smtp exim -bp
+sudo docker exec -it smtp exim -bp
 ```
 
 Remove all frozen messages:
 
 ```shell
-docker exec -it smtp exim -bpu | grep frozen | awk {'print $3'} | xargs exim -Mrm
+sudo docker exec -it smtp exim -bpu | grep frozen | awk {'print $3'} | xargs exim -Mrm
 ```
 
 Test how exim will route a given address:
 
 ```shell
-docker exec -it smtp exim -bt test@gmail.com
+sudo docker exec -it smtp exim -bt test@gmail.com
 ```
 
 ```
@@ -133,31 +147,31 @@ test@gmail.com
 Display all of Exim's configuration settings:
 
 ```shell
-docker exec -it smtp exim -bP
+sudo docker exec -it smtp exim -bP
 ```
 
 View a message's headers:
 
 ```shell
-docker exec -it smtp exim -Mvh <message-id>
+sudo docker exec -it smtp exim -Mvh <message-id>
 ```
 
 View a message's body:
 
 ```shell
-docker exec -it smtp exim -Mvb <message-id>
+sudo docker exec -it smtp exim -Mvb <message-id>
 ```
 
 View a message's logs:
 
 ```shell
-docker exec -it smtp exim -Mar <message-id>
+sudo docker exec -it smtp exim -Mar <message-id>
 ```
 
 Remove a message from the queue:
 
 ```shell
-docker exec -it smtp exim -Mrm <message-id> [ <message-id> ... ]
+sudo docker exec -it smtp exim -Mrm <message-id> [ <message-id> ... ]
 ```
 
 Send a message:
