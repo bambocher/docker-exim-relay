@@ -1,12 +1,6 @@
-FROM alpine:3.6
-MAINTAINER Dmitry Prazdnichnov <dp@bambucha.org>
+FROM alpine:3.11
 
-ARG VERSION=4.89-r5
-
-LABEL org.label-schema.version=$VERSION \
-      org.label-schema.vcs-url=https://github.com/bambocher/docker-exim-relay \
-      org.label-schema.license=MIT \
-      org.label-schema.schema-version=1.0
+ARG VERSION=4.93-r0
 
 ENV RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16 \
     DKIM_KEY_SIZE=1024 \
@@ -14,7 +8,7 @@ ENV RELAY_FROM_HOSTS=10.0.0.0/8:172.16.0.0/12:192.168.0.0/16 \
     DKIM_SIGN_HEADERS=Date:From:To:Subject:Message-ID
 
 RUN apk --no-cache add exim=$VERSION libcap openssl \
-    && mkdir /dkim /var/log/exim /usr/lib/exim /var/spool/exim \
+    && mkdir -p /dkim /var/log/exim /usr/lib/exim /var/spool/exim \
     && ln -s /dev/stdout /var/log/exim/main \
     && ln -s /dev/stderr /var/log/exim/panic \
     && ln -s /dev/stderr /var/log/exim/reject \
